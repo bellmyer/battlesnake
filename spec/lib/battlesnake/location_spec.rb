@@ -71,11 +71,83 @@ describe Battlesnake::Location do
     describe 'when other location differs vertically and horizontally' do
       let(:other_coords) { {'x' => object.x + delta_x, 'y' => object.y + delta_y} }
 
-      let(:distance) { delta_x + delta_y }
       let(:delta_x) { 2 }
       let(:delta_y) { 2 }
 
-      it { is_expected.to eq(distance) }
+      it { is_expected.to eq(delta_x + delta_y) }
+    end
+  end
+
+  describe '#direction' do
+    subject { object.direction(other_location) }
+
+    let(:other_location) { klass.new(other_coords) }
+    let(:distance) { 2 }
+    let(:further) { distance * 2 }
+
+    describe 'when other location is directly right' do
+      let(:other_coords) { coords.merge('x' => object.x + distance) }
+      it { is_expected.to eq('right') }
+    end
+
+    describe 'when other location is directly left' do
+      let(:other_coords) { coords.merge('x' => object.x - distance) }
+      it { is_expected.to eq('left') }
+    end
+
+    describe 'when other location is directly up' do
+      let(:other_coords) { coords.merge('y' => object.y + distance) }
+      it { is_expected.to eq('up') }
+    end
+
+    describe 'when other location is directly down' do
+      let(:other_coords) { coords.merge('y' => object.y - distance) }
+      it { is_expected.to eq('down') }
+    end
+
+    describe 'when other location is mostly right' do
+      let(:other_coords) { {'x' => object.x + further, 'y' => object.y + distance} }
+      it { is_expected.to eq('right') }
+    end
+
+    describe 'when other location is mostly left' do
+      let(:other_coords) { {'x' => object.x - further, 'y' => object.y - distance} }
+      it { is_expected.to eq('left') }
+    end
+
+    describe 'when other location is mostly up' do
+      let(:other_coords) { {'x' => object.x + distance, 'y' => object.y + further} }
+      it { is_expected.to eq('up') }
+    end
+
+    describe 'when other location is mostly down' do
+      let(:other_coords) { {'x' => object.x - distance, 'y' => object.y - further} }
+      it { is_expected.to eq('down') }
+    end
+
+    describe 'when other location is equally up and right' do
+      let(:other_coords) { {'x' => object.x + distance, 'y' => object.y + distance} }
+      it { is_expected.to eq('up') }
+    end
+
+    describe 'when other location is equally up and left' do
+      let(:other_coords) { {'x' => object.x - distance, 'y' => object.y + distance} }
+      it { is_expected.to eq('up') }
+    end
+
+    describe 'when other location is equally down and right' do
+      let(:other_coords) { {'x' => object.x + distance, 'y' => object.y - distance} }
+      it { is_expected.to eq('down') }
+    end
+
+    describe 'when other location is equally down and left' do
+      let(:other_coords) { {'x' => object.x - distance, 'y' => object.y - distance} }
+      it { is_expected.to eq('down') }
+    end
+
+    describe 'when other location is the same' do
+      let(:other_coords) { coords }
+      it { is_expected.to be_nil }
     end
   end
 end

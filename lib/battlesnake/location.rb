@@ -9,7 +9,20 @@ module Battlesnake
     end
 
     def distance(location)
-      [(location.x - x).abs, (location.y - y).abs].reduce(:+)
+      [delta_x(location).abs, delta_y(location).abs].reduce(:+)
+    end
+
+    def direction(location)
+      return nil if distance(location) == 0
+
+      dx = delta_x(location)
+      dy = delta_y(location)
+
+      if dx.abs <= dy.abs
+        dy > 0 ? 'up' : 'down'
+      elsif dx.abs > dy.abs
+        dx > 0 ? 'right' : 'left'
+      end
     end
 
     private
@@ -36,6 +49,14 @@ module Battlesnake
 
     def array_to_xy(coords)
       @x, @y = coords
+    end
+
+    def delta_x(location)
+      location.x - x
+    end
+
+    def delta_y(location)
+      location.y - y
     end
   end
 end
