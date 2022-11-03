@@ -1,24 +1,64 @@
 require 'json'
 
 module Battlesnake
+  ##
+  # Represents a pair of (x,y) coordinates, and provides helper methods
+  # for managing distance and direction.
   class Location
-    attr_reader :x, :y
+    # @return [Integer] a positive integer representing the distance from the
+    #   left side of the board.
+    attr_reader :x
 
+    # @return [Integer] a positive integer representing the distance from the
+    #   bottom of the board.
+    attr_reader :y
+
+    # Valid directions.
     DIRECTIONS = ['up', 'down', 'right', 'left']
 
+    ##
+    # Instantiates with the given (x,y) coordinates. Coordinates can be:
+    # * a hash containing "x" and "y" keys
+    # * a JSON string that parses to such a hash
+    # * an array containing (x,y) coordinates
+    # * two separate (x,y) parameters
+    #
+    # @param coordinates [Hash, Array, String] the coordinates
+    #
+    # @return [Location] a new location object with (x,y) coordinates set.
     def initialize(*coordinates)
       set_xy(*coordinates)
     end
 
+    ##
+    # Convenience method to return (x,y) coordinates as an array.
+    #
+    # @return [Array]
     def coords
       return @coords if defined?(@coords)
       @coords = [x, y]
     end
 
+    ##
+    # Calculate the distance from this instance to another.
+    #
+    # @param location [Location] another Location instance.
+    #
+    # @return [Integer] the number of blocks away, in "manhattan distance".
     def distance(location)
       [delta_x(location).abs, delta_y(location).abs].reduce(:+)
     end
 
+    ##
+    # Determine the most prominent orthoganal direction [see DIRECTIONS]
+    # toward another location.
+    #
+    # @note Returns _nil_ if the locations are the same. Favors "up" or "down"
+    #   if horizontal and vertical distances are the same.
+    #
+    # @param location [Location] another location instance.
+    #
+    # @return [one of DIRECTIONS]
     def direction(location)
       return nil if distance(location) == 0
 
@@ -32,6 +72,14 @@ module Battlesnake
       end
     end
 
+    ##
+    # Return a new location instance with coordinates moved one step in the requested direction.
+    #
+    # @note Returns _nil_ if the requested direction is not recognized.
+    #
+    # @param requested_direction [one of DIRECTIONS]
+    #
+    # @return [Location] a new location instance.
     def move(requested_direction)
       return nil unless DIRECTIONS.include?(requested_direction)
 

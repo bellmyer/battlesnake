@@ -1,8 +1,10 @@
 # Battlesnake
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/battlesnake`. To experiment with that code, run `bin/console` for an interactive prompt.
+[battlesnake.com](https://battlesnake.com) is a fun way to pit your programming skills against other developers, by implementing your own player in an
+online version of the classic [snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre)) video game.
 
-TODO: Delete this and the text above, and describe your gem
+The battlesnake gem provides classes and helper methods to speed development. Simple mathematical mapping methods are available so you can focus on
+coding your strategy, rather than re-inventing the wheel.
 
 ## Installation
 
@@ -22,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Examples coming soon. For now, view our [documentation](https://github.com/bellmyer/battlesnake/doc/_index.html).
 
 ## Development
 
@@ -32,5 +34,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/battlesnake.
+Bug reports and pull requests are welcome on GitHub at https://github.com/bellmyer/battlesnake.
 
