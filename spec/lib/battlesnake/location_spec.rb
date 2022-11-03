@@ -42,6 +42,19 @@ describe Battlesnake::Location do
     end
   end
 
+  describe '#coords' do
+    subject { object.coords }
+
+    it { is_expected.to eq([object.x, object.y]) }
+
+    it 'memoizes the result' do
+      expect(object).to receive(:x).once
+      expect(object).to receive(:y).once
+
+      2.times { object.coords }
+    end
+  end
+
   describe '#distance(location)' do
     subject { object.distance(other_location) }
 

@@ -6,8 +6,13 @@ module Battlesnake
 
     DIRECTIONS = ['up', 'down', 'right', 'left']
 
-    def initialize(*coords)
-      set_xy(*coords)
+    def initialize(*coordinates)
+      set_xy(*coordinates)
+    end
+
+    def coords
+      return @coords if defined?(@coords)
+      @coords = [x, y]
     end
 
     def distance(location)
@@ -49,28 +54,28 @@ module Battlesnake
 
     private
 
-    def set_xy(*coords)
-      unless coords.is_a?(Array) && coords.size == 2
-        coords = coords.first
+    def set_xy(*coordinates)
+      unless coordinates.is_a?(Array) && coordinates.size == 2
+        coordinates = coordinates.first
       end
 
-      case coords
+      case coordinates
       when Hash
-        hash_to_xy(coords)
+        hash_to_xy(coordinates)
       when String
-        hash_to_xy(JSON.parse(coords))
+        hash_to_xy(JSON.parse(coordinates))
       when Array
-        array_to_xy(coords)
+        array_to_xy(coordinates)
       end
     end
 
-    def hash_to_xy(coords)
-      @x = coords['x']
-      @y = coords['y']
+    def hash_to_xy(coordinates)
+      @x = coordinates['x']
+      @y = coordinates['y']
     end
 
-    def array_to_xy(coords)
-      @x, @y = coords
+    def array_to_xy(coordinates)
+      @x, @y = coordinates
     end
 
     def delta_x(location)
