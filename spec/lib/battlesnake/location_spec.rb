@@ -150,4 +150,69 @@ describe Battlesnake::Location do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#move(requested_direction)' do
+    subject { object.move(requested_direction) }
+
+    describe 'when requested direction is right' do
+      let(:requested_direction) { 'right' }
+
+      it { is_expected.to be_a(klass) }
+
+      it 'returns x + 1' do
+        expect(subject.x).to eq(x + 1)
+      end
+
+      it 'returns same y' do
+        expect(subject.y).to eq(y)
+      end
+    end
+
+    describe 'when requested direction is left' do
+      let(:requested_direction) { 'left' }
+
+      it { is_expected.to be_a(klass) }
+
+      it 'returns x - 1' do
+        expect(subject.x).to eq(x - 1)
+      end
+
+      it 'returns same y' do
+        expect(subject.y).to eq(y)
+      end
+    end
+
+    describe 'when requested direction is up' do
+      let(:requested_direction) { 'up' }
+
+      it { is_expected.to be_a(klass) }
+
+      it 'returns same x' do
+        expect(subject.x).to eq(x)
+      end
+
+      it 'returns y + 1' do
+        expect(subject.y).to eq(y + 1)
+      end
+    end
+
+    describe 'when requested direction is down' do
+      let(:requested_direction) { 'down' }
+
+      it { is_expected.to be_a(klass) }
+
+      it 'returns same x' do
+        expect(subject.x).to eq(x)
+      end
+
+      it 'returns y - 1' do
+        expect(subject.y).to eq(y - 1)
+      end
+    end
+
+    describe 'when unrecognized direction is requested' do
+      let(:requested_direction) { 'turtles' }
+      it { is_expected.to be_nil }
+    end
+  end
 end

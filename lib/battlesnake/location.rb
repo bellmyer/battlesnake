@@ -4,6 +4,8 @@ module Battlesnake
   class Location
     attr_reader :x, :y
 
+    DIRECTIONS = ['up', 'down', 'right', 'left']
+
     def initialize(*coords)
       set_xy(*coords)
     end
@@ -23,6 +25,26 @@ module Battlesnake
       elsif dx.abs > dy.abs
         dx > 0 ? 'right' : 'left'
       end
+    end
+
+    def move(requested_direction)
+      return nil unless DIRECTIONS.include?(requested_direction)
+
+      new_x = x
+      new_y = y
+
+      case requested_direction
+      when 'right'
+        new_x += 1
+      when 'left'
+        new_x -= 1
+      when 'up'
+        new_y += 1
+      when 'down'
+        new_y -= 1
+      end
+
+      self.class.new(new_x, new_y)
     end
 
     private
