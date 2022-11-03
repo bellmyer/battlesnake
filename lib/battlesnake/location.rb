@@ -8,6 +8,10 @@ module Battlesnake
       set_xy(*coords)
     end
 
+    def distance(location)
+      [(location.x - x).abs, (location.y - y).abs].reduce(:+)
+    end
+
     private
 
     def set_xy(*coords)
