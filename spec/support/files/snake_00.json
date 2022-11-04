@@ -1,0 +1,56 @@
+{
+  "id": "gs_jxRgvyCjBMytK9qrgdb8J6WK",
+  "name": "Hungry Bot",
+  "latency": "1",
+  "health": 99,
+  "body": [
+    {
+      "x": 6,
+      "y": 8
+    },
+    {
+      "x": 5,
+      "y": 8
+    },
+    {
+      "x": 5,
+      "y": 7
+    },
+    {
+      "x": 5,
+      "y": 6
+    },
+    {
+      "x": 5,
+      "y": 5
+    },
+    {
+      "x": 5,
+      "y": 4
+    },
+    {
+      "x": 5,
+      "y": 3
+    },
+    {
+      "x": 5,
+      "y": 2
+    },
+    {
+      "x": 5,
+      "y": 1
+    }
+  ],
+  "head": {
+    "x": 6,
+    "y": 8
+  },
+  "length": 9,
+  "shout": "",
+  "squad": "",
+  "customizations": {
+    "color": "#00cc00",
+    "head": "alligator",
+    "tail": "alligator"
+  }
+}

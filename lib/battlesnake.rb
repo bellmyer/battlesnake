@@ -1,5 +1,6 @@
 require "battlesnake/version"
 require 'battlesnake/location'
+require 'battlesnake/snake'
 
 ##
 # Primary namespace for the battlesnake gem.

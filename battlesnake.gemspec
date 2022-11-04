@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'guard', '~> 2.18.0'
   spec.add_development_dependency 'guard-rspec', '~> 4.7.3'
   spec.add_development_dependency 'yard', '~> 0.9.28'
+  spec.add_development_dependency 'fabrication', '~> 2.30.0'
 end
