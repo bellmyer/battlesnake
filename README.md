@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-Examples coming soon. For now, view our [documentation](https://github.com/bellmyer/battlesnake/doc/_index.html).
+Examples coming soon. For now, view our [documentation](https://raw.githubusercontent.com/bellmyer/battlesnake/master/doc/_index.html).
 
 ## Development
 
