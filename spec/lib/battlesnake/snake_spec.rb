@@ -4,8 +4,10 @@ describe Battlesnake::Snake do
   let(:klass) { Battlesnake::Snake }
   let(:object) { klass.new(attribs) }
 
+  let(:attribs) { data }
   let(:json) { data.to_json }
-  let(:data) { Fabricate(:snake).raw }
+  let(:data) { Fabricate(:snake, length: length).raw }
+  let(:length) { 3 }
 
   describe '#initialize(json_or_hash)' do
     subject { object }
@@ -63,6 +65,35 @@ describe Battlesnake::Snake do
 
       it 'stores the raw input data' do
         expect(subject.raw).to eq(data)
+      end
+    end
+  end
+
+  describe '#direction' do
+    subject { object.direction }
+
+    describe 'when snake length is 1' do
+      let(:length) { 1 }
+
+      it { is_expected.to be_nil }
+
+      it 'memoizes the result' do
+        expect(object).to receive(:length).and_return(length).once
+        2.times { object.direction }
+      end
+    end
+
+    describe 'when snake length is greater than 1' do
+      let(:length) { 2 }
+
+      it 'should return the current direction of snake' do
+        # fabricator generates left-facing snakes by default
+        expect(subject).to eq('left')
+      end
+
+      it 'memoizes the result' do
+        expect(object).to receive(:length).and_return(length).once
+        2.times { object.direction }
       end
     end
   end

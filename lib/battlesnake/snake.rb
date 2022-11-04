@@ -19,5 +19,10 @@ module Battlesnake
       @body = @raw['body'].map{ |coords| Location.new(coords) }
       @head = Location.new(@raw['head'])
     end
+
+    def direction
+      return @direction if defined?(@direction)
+      @direction = length > 1 ? body[1].direction(head) : nil
+    end
   end
 end
