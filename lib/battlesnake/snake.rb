@@ -1,15 +1,55 @@
 require 'json'
 
 module Battlesnake
+  ##
+  # Represents a single Battlesnake player.
   class Snake
-    attr_reader :raw, :id, :name, :body, :latency, :health, :head, :length, :shout, :squad, :customizations
+    # @return [Hash] entire data structure which was passed to object on initialization.
+    attr_reader :raw
 
+    # @return [String] unique string which identifies the player.
+    attr_reader :id
+
+    # @return [String] name of the player.
+    attr_reader :name
+
+    # @return [Array<Location>] locations occupied by the body of the snake.
+    attr_reader :body
+
+    # @return [Integer] latency of given player's API, _nil_ if not provided.
+    attr_reader :latency
+
+    # @return [Integer] health value between 0 and 100.
+    attr_reader :health
+
+    # @return [Location] location of snake head. Should be the same as body[0].
+    attr_reader :head
+
+    # @return [Integer] number of locations occupied by snake body.
+    attr_reader :length
+
+    # @return [String] message to other players.
+    attr_reader :shout
+
+    # @return [String] squad identifer for games played with teams.
+    attr_reader :squad
+
+    # @return [Hash] display customizations.
+    attr_reader :customizations
+
+    ##
+    # Returns a new instance of Snake.
+    #
+    # @param json_or_hash [String,Hash] can be a hash of attributes, or a JSON string which
+    #   represents such a structure.
+    #
+    # @return [Snake]
     def initialize(json_or_hash)
       @raw = json_or_hash.is_a?(String) ? JSON.parse(json_or_hash) : json_or_hash
 
       @id = @raw['id']
       @name = @raw['name']
-      @latency = @raw['latency']
+      @latency = @raw['latency'].empty? ? nil : @raw['latency'].to_i
       @health = @raw['health']
       @length = @raw['length']
       @shout = @raw['shout']
@@ -20,6 +60,12 @@ module Battlesnake
       @head = Location.new(@raw['head'])
     end
 
+    ##
+    # The current direction the snake is facing, based on the first two segments
+    # of the body. If snake only has a head, no direction can be determined, so
+    # _nil_ is returned.
+    #
+    # @return [String] one of (up, down, left, right)
     def direction
       return @direction if defined?(@direction)
       @direction = length > 1 ? body[1].direction(head) : nil

@@ -6,8 +6,9 @@ describe Battlesnake::Snake do
 
   let(:attribs) { data }
   let(:json) { data.to_json }
-  let(:data) { Fabricate(:snake, length: length).raw }
+  let(:data) { Fabricate(:snake, length: length, latency: latency).raw }
   let(:length) { 3 }
+  let(:latency) { '20' }
 
   describe '#initialize(json_or_hash)' do
     subject { object }
@@ -32,12 +33,15 @@ describe Battlesnake::Snake do
 
       it_sets_attr(:id)
       it_sets_attr(:name)
-      it_sets_attr(:latency)
       it_sets_attr(:health)
       it_sets_attr(:length)
       it_sets_attr(:shout)
       it_sets_attr(:squad)
       it_sets_attr(:customizations)
+
+      it 'sets latency' do
+        expect(subject.latency).to eq(latency.to_i)
+      end
 
       it 'sets body' do
         body = subject.body
@@ -65,6 +69,14 @@ describe Battlesnake::Snake do
 
       it 'stores the raw input data' do
         expect(subject.raw).to eq(data)
+      end
+    end
+
+    describe 'when latency is blank' do
+      let(:latency) { '' }
+
+      it 'sets to nil' do
+        expect(subject.latency).to be_nil
       end
     end
   end
