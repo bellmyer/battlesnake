@@ -6,7 +6,7 @@ describe Battlesnake::Snake do
 
   let(:attribs) { data }
   let(:json) { data.to_json }
-  let(:data) { Fabricate(:snake, length: length, latency: latency).raw }
+  let(:data) { Fabricate(:snake, length: length, latency: latency).as_json }
   let(:length) { 3 }
   let(:latency) { '20' }
 
@@ -28,7 +28,7 @@ describe Battlesnake::Snake do
       it { is_expected.to be_a(klass) }
 
       it 'stores the raw input data' do
-        expect(subject.raw).to eq(data)
+        expect(subject.as_json).to eq(data)
       end
 
       it_sets_attr(:id)
@@ -68,7 +68,7 @@ describe Battlesnake::Snake do
       it { is_expected.to be_a(klass) }
 
       it 'stores the raw input data' do
-        expect(subject.raw).to eq(data)
+        expect(subject.as_json).to eq(data)
       end
     end
 

@@ -4,8 +4,8 @@ module Battlesnake
   ##
   # Represents a single Battlesnake player.
   class Snake
-    # @return [Hash] entire data structure which was passed to object on initialization.
-    attr_reader :raw
+    # @return [Hash] snake as a data structure usable by other objects.
+    attr_reader :as_json
 
     # @return [String] unique string which identifies the player.
     attr_reader :id
@@ -45,19 +45,19 @@ module Battlesnake
     #
     # @return [Snake]
     def initialize(json_or_hash)
-      @raw = json_or_hash.is_a?(String) ? JSON.parse(json_or_hash) : json_or_hash
+      @as_json = json_or_hash.is_a?(String) ? JSON.parse(json_or_hash) : json_or_hash
 
-      @id = @raw['id']
-      @name = @raw['name']
-      @latency = @raw['latency'].empty? ? nil : @raw['latency'].to_i
-      @health = @raw['health']
-      @length = @raw['length']
-      @shout = @raw['shout']
-      @squad = @raw['squad']
-      @customizations = @raw['customizations']
+      @id = @as_json['id']
+      @name = @as_json['name']
+      @latency = @as_json['latency'].empty? ? nil : @as_json['latency'].to_i
+      @health = @as_json['health']
+      @length = @as_json['length']
+      @shout = @as_json['shout']
+      @squad = @as_json['squad']
+      @customizations = @as_json['customizations']
 
-      @body = @raw['body'].map{ |coords| Location.new(coords) }
-      @head = Location.new(@raw['head'])
+      @body = @as_json['body'].map{ |coords| Location.new(coords) }
+      @head = Location.new(@as_json['head'])
     end
 
     ##

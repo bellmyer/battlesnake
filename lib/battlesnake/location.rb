@@ -13,6 +13,9 @@ module Battlesnake
     #   bottom of the board.
     attr_reader :y
 
+    # @return [Hash] coordinates as a hash, for integration with other objects.
+    attr_reader :as_json
+
     # Valid directions.
     DIRECTIONS = ['up', 'down', 'right', 'left']
 
@@ -28,6 +31,8 @@ module Battlesnake
     # @return [Location] a new location object with (x,y) coordinates set.
     def initialize(*coordinates)
       set_xy(*coordinates)
+
+      @as_json = {'x' => x, 'y' => y}
     end
 
     ##

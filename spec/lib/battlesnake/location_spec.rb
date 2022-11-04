@@ -19,6 +19,10 @@ describe Battlesnake::Location do
       it 'sets y' do
         expect(subject.y).to eq(y)
       end
+
+      it 'sets as_json' do
+        expect(subject.as_json).to eq({'x' => object.x, 'y' => object.y})
+      end
     end
 
     describe 'when coords are a hash' do
