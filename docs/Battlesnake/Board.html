@@ -69,10 +69,12 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName">Object</span>
+      <span class="inheritName"><span class='object_link'><a href="Base.html" title="Battlesnake::Base (class)">Base</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Base.html" title="Battlesnake::Base (class)">Base</a></span></li>
           
             <li class="next">Battlesnake::Board</li>
           
@@ -307,6 +309,54 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#available%3F-instance_method" title="#available? (instance method)">#<strong>available?</strong>(*coordinates)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Whether the supplied location is available (unoccupied).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#available_directions-instance_method" title="#available_directions (instance method)">#<strong>available_directions</strong>(location)  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of directions (up, down, left, right) available for moving from given <em>Location</em>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(json_or_hash)  &#x21d2; Board </a>
     
 
@@ -330,9 +380,68 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#occupied%3F-instance_method" title="#occupied? (instance method)">#<strong>occupied?</strong>(*coordinates)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Whether the supplied location is occupied.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#occupied_locations-instance_method" title="#occupied_locations (instance method)">#<strong>occupied_locations</strong>  &#x21d2; Array&lt;Location&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of all occupied locations on the board; snakes, food, hazards, etc.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Base.html" title="Battlesnake::Base (class)">Base</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Base.html#==-instance_method" title="Battlesnake::Base#== (method)">#==</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -785,10 +894,320 @@
   </div>
 
 
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="available?-instance_method">
+  
+    #<strong>available?</strong>(*coordinates)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Whether the supplied location is available (unoccupied).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>*coordinates</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>, <tt>Hash</tt>, <tt>String</tt>, <tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>can be specified as a <em>Location</em> object, hash containing x/y keys, JSON string of such a hash, or a pair of x,y coordinates expressed as a 2-element array or two separate parameters.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if location is available (unoccupied by snakes, food, hazards, etc).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 73</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_available?'>available?</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coordinates'>coordinates</span><span class='rparen'>)</span>
+  <span class='op'>!</span><span class='id identifier rubyid_occupied?'>occupied?</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coordinates'>coordinates</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="available_directions-instance_method">
+  
+    #<strong>available_directions</strong>(location)  &#x21d2; <tt>Array&lt;String&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>List of directions (up, down, left, right) available for moving from given <em>Location</em>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>location</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>from which moving is desired.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>list of direction strings (“up”, “down”, “left”, “right”)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_available_directions'>available_directions</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Location.html#DIRECTIONS-constant" title="Battlesnake::Location::DIRECTIONS (constant)">DIRECTIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_direction'>direction</span><span class='op'>|</span>
+    <span class='id identifier rubyid_available?'>available?</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_move'>move</span><span class='lparen'>(</span><span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="occupied?-instance_method">
+  
+    #<strong>occupied?</strong>(*coordinates)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Whether the supplied location is occupied.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>*coordinates</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>, <tt>Hash</tt>, <tt>String</tt>, <tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>can be specified as a <em>Location</em> object, hash containing x/y keys, JSON string of such a hash, or a pair of x,y coordinates expressed as a 2-element array or two separate parameters.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if location is occupied by snakes, food, hazards, etc.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 60</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_occupied?'>occupied?</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coordinates'>coordinates</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_location'>location</span> <span class='op'>=</span> <span class='id identifier rubyid_coordinates'>coordinates</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_coordinates'>coordinates</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Location.html#initialize-instance_method" title="Battlesnake::Location#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coordinates'>coordinates</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_occupied_locations'>occupied_locations</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="occupied_locations-instance_method">
+  
+    #<strong>occupied_locations</strong>  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>List of all occupied locations on the board; snakes, food, hazards, etc</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>list of occupied locations</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_occupied_locations'>occupied_locations</span>
+  <span class='kw'>return</span> <span class='ivar'>@occupied_locations</span> <span class='kw'>if</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='ivar'>@occupied_locations</span><span class='rparen'>)</span>
+  <span class='ivar'>@occupied_locations</span> <span class='op'>=</span> <span class='id identifier rubyid_snakes'>snakes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:body</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span> <span class='op'>+</span> <span class='id identifier rubyid_food'>food</span> <span class='op'>+</span> <span class='id identifier rubyid_hazards'>hazards</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
 
       <div id="footer">
-  Generated on Fri Nov  4 19:07:50 2022 by
+  Generated on Sat Nov  5 20:09:02 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-2.7.2).
 </div>

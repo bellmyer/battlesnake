@@ -3,7 +3,7 @@ require 'json'
 module Battlesnake
   ##
   # Represents a single Battlesnake player.
-  class Snake
+  class Snake < Base
     # @return [Hash] snake as a data structure usable by other objects.
     attr_reader :as_json
 

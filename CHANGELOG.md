@@ -1,0 +1,33 @@
+# Battlesnake
+
+## 0.1.2 (2022-11-05)
+
+### Added
+
+  - Class for Game, which deserializes game JSON or hash into object.
+  - Board:
+    - #occupied_locations returns array of all occupied locations; snakes, food, hazards, etc.
+    - #occupied?(location) returns true if location is occupied.
+    - #available?(location) returns true if location is available (unoccupied).
+    - #available_directions(location) returns directions (up, down, left, right) available for
+      moving.
+  - Model classes (Game, Board, Location, Snake):
+    - now inherit from a Base class.
+    - measure equality based on as_json method.
+
+## 0.1.1 (2022-11-04)
+
+### Added
+
+  - Class for Board, which deserializes board JSON or hash into object with Snake and Location
+    objects.
+
+## 0.1.0 (2022-11-04)
+
+### Initial Release
+
+  - Class for Location, which deserializes coordinate JSON, hash with (x,y) keys, array of two
+    elements, or two parameters into object with helper methods.
+  - Class for Snake, which deserializes snake JSON  or hash into object with Location objects and
+    helper methods.
+  

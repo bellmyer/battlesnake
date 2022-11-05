@@ -3,7 +3,7 @@ require 'json'
 module Battlesnake
   ##
   # Represents a single iteration (turn) of a Battlesnake board during gameplay.
-  class Board
+  class Board < Base
     # @return [Hash] board as a data structure usable by other objects.
     attr_reader :as_json
 
@@ -38,6 +38,52 @@ module Battlesnake
       @snakes = data['snakes'].map{ |attrs| Snake.new(attrs) }
       @food = data['food'].map{ |attrs| Location.new(attrs) }
       @hazards = data['hazards'].map{ |attrs| Location.new(attrs) }
+    end
+
+    ##
+    # List of all occupied locations on the board; snakes, food, hazards, etc
+    #
+    # @return [Array<Location>] list of occupied locations
+    def occupied_locations
+      return @occupied_locations if defined?(@occupied_locations)
+      @occupied_locations = snakes.map(&:body).flatten + food + hazards
+    end
+
+    ##
+    # Whether the supplied location is occupied.
+    #
+    # @param *coordinates [Location,Hash,String,Array] can be specified as a _Location_ object,
+    #   hash containing x/y keys, JSON string of such a hash, or a pair of x,y coordinates expressed
+    #   as a 2-element array or two separate parameters.
+    #
+    # @return [Boolean] true if location is occupied by snakes, food, hazards, etc.
+    def occupied?(*coordinates)
+      location = coordinates.first.is_a?(Location) ? coordinates.first : Location.new(*coordinates)
+      occupied_locations.include?(location)
+    end
+
+    ##
+    # Whether the supplied location is available (unoccupied).
+    #
+    # @param *coordinates [Location,Hash,String,Array] can be specified as a _Location_ object,
+    #   hash containing x/y keys, JSON string of such a hash, or a pair of x,y coordinates expressed
+    #   as a 2-element array or two separate parameters.
+    #
+    # @return [Boolean] true if location is available (unoccupied by snakes, food, hazards, etc).
+    def available?(*coordinates)
+      !occupied?(*coordinates)
+    end
+
+    ##
+    # List of directions (up, down, left, right) available for moving from given _Location_.
+    #
+    # @param [Location] location from which moving is desired.
+    #
+    # @return [Array<String>] list of direction strings ("up", "down", "left", "right")
+    def available_directions(location)
+      Location::DIRECTIONS.select do |direction|
+        available?(location.move(direction))
+      end
     end
   end
 end

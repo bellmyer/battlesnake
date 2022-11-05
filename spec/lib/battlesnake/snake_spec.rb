@@ -10,6 +10,8 @@ describe Battlesnake::Snake do
   let(:length) { 3 }
   let(:latency) { '20' }
 
+  it_behaves_like 'model'
+
   describe '#initialize(json_or_hash)' do
     subject { object }
 

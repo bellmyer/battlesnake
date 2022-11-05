@@ -4,7 +4,7 @@ module Battlesnake
   ##
   # Represents a pair of (x,y) coordinates, and provides helper methods
   # for managing distance and direction.
-  class Location
+  class Location < Base
     # @return [Integer] a positive integer representing the distance from the
     #   left side of the board.
     attr_reader :x

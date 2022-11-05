@@ -2,11 +2,13 @@ require 'json'
 
 describe Battlesnake::Location do
   let(:klass) { Battlesnake::Location }
-  let(:object) { klass.new(coords) }
+  let(:object) { klass.new(data) }
 
-  let(:coords) { {'x' => x, 'y' => y} }
+  let(:data) { {'x' => x, 'y' => y} }
   let(:x) { 5 }
   let(:y) { 6 }
+
+  it_behaves_like 'model'
 
   describe '#initialize' do
     subject { object }
@@ -25,22 +27,22 @@ describe Battlesnake::Location do
       end
     end
 
-    describe 'when coords are a hash' do
-      let(:coords) { {'x' => x, 'y' => y} }
+    describe 'when input is a hash' do
+      let(:data) { {'x' => x, 'y' => y} }
       sets_x_and_y
     end
 
-    describe 'when coords are json' do
-      let(:coords) { {'x' => x, 'y' => y}.to_json }
+    describe 'when input is json' do
+      let(:data) { {'x' => x, 'y' => y}.to_json }
       sets_x_and_y
     end
 
-    describe 'when coords are array' do
-      let(:coords) { [x, y] }
+    describe 'when input is an array' do
+      let(:data) { [x, y] }
       sets_x_and_y
     end
 
-    describe 'when coords are passed as multiple parameters' do
+    describe 'when input is passed as multiple parameters' do
       let(:object) { klass.new(x, y) }
       sets_x_and_y
     end
@@ -66,22 +68,22 @@ describe Battlesnake::Location do
     let(:distance) { 2 }
 
     describe 'when other location is directly right' do
-      let(:other_coords) { coords.merge('x' => object.x + distance) }
+      let(:other_coords) { data.merge('x' => object.x + distance) }
       it { is_expected.to eq(distance) }
     end
 
     describe 'when other location is directly left' do
-      let(:other_coords) { coords.merge('x' => object.x - distance) }
+      let(:other_coords) { data.merge('x' => object.x - distance) }
       it { is_expected.to eq(distance) }
     end
 
     describe 'when other location is directly up' do
-      let(:other_coords) { coords.merge('y' => object.y + distance) }
+      let(:other_coords) { data.merge('y' => object.y + distance) }
       it { is_expected.to eq(distance) }
     end
 
     describe 'when other location is directly down' do
-      let(:other_coords) { coords.merge('y' => object.y - distance) }
+      let(:other_coords) { data.merge('y' => object.y - distance) }
       it { is_expected.to eq(distance) }
     end
 
@@ -103,22 +105,22 @@ describe Battlesnake::Location do
     let(:further) { distance * 2 }
 
     describe 'when other location is directly right' do
-      let(:other_coords) { coords.merge('x' => object.x + distance) }
+      let(:other_coords) { data.merge('x' => object.x + distance) }
       it { is_expected.to eq('right') }
     end
 
     describe 'when other location is directly left' do
-      let(:other_coords) { coords.merge('x' => object.x - distance) }
+      let(:other_coords) { data.merge('x' => object.x - distance) }
       it { is_expected.to eq('left') }
     end
 
     describe 'when other location is directly up' do
-      let(:other_coords) { coords.merge('y' => object.y + distance) }
+      let(:other_coords) { data.merge('y' => object.y + distance) }
       it { is_expected.to eq('up') }
     end
 
     describe 'when other location is directly down' do
-      let(:other_coords) { coords.merge('y' => object.y - distance) }
+      let(:other_coords) { data.merge('y' => object.y - distance) }
       it { is_expected.to eq('down') }
     end
 
@@ -163,7 +165,7 @@ describe Battlesnake::Location do
     end
 
     describe 'when other location is the same' do
-      let(:other_coords) { coords }
+      let(:other_coords) { data }
       it { is_expected.to be_nil }
     end
   end

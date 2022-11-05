@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    battlesnake (0.1.1)
+    battlesnake (0.1.2)
 
 GEM
   remote: https://rubygems.org/
