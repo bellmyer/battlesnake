@@ -63,6 +63,16 @@ module Battlesnake
     end
 
     ##
+    # Where the supplied location falls within the boundaries of the board.
+    #
+    # @param [Location] location being tested.
+    #
+    # @return [Boolean] true if location is within the boundaries of the board.
+    def on_board?(location)
+      location.x >= 0 && location.y >= 0 && location.x < width && location.y < height
+    end
+
+    ##
     # Whether the supplied location is available (unoccupied).
     #
     # @param *coordinates [Location,Hash,String,Array] can be specified as a _Location_ object,

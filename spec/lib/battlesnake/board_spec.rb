@@ -261,4 +261,36 @@ describe Battlesnake::Board do
       it_returns_only 'up', 'left', 'right'
     end
   end
+
+  describe '#on_board?(location)' do
+    subject { object.on_board?(location) }
+
+    let(:location) { Battlesnake::Location.new(x, y) }
+    let(:x) { 1 }
+    let(:y) { 1 }
+
+    describe 'when x and y are valid' do
+      it { is_expected.to be_truthy }
+    end
+
+    describe 'when x is negative' do
+      let(:x) { -1 }
+      it { is_expected.to be_falsey }
+    end
+
+    describe 'when y is negative' do
+      let(:y) { -1 }
+      it { is_expected.to be_falsey }
+    end
+
+    describe 'when x is too high' do
+      let(:x) { object.width }
+      it { is_expected.to be_falsey }
+    end
+
+    describe 'when y is too high' do
+      let(:y) { object.height }
+      it { is_expected.to be_falsey }
+    end
+  end
 end

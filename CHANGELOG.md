@@ -1,5 +1,11 @@
 # Battlesnake
 
+## 0.1.3 (2022-11-07)
+
+### Added
+
+  - Board#on_board?(location) returns true if location is within board boundaries.
+
 ## 0.1.2 (2022-11-05)
 
 ### Added
