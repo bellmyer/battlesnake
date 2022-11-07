@@ -76,7 +76,7 @@ module Battlesnake
     #
     # @return [Boolean] true if location is available (unoccupied by snakes, food, hazards, etc).
     def available?(location)
-      !occupied?(location)
+      on_board?(location) && !occupied?(location)
     end
 
     ##

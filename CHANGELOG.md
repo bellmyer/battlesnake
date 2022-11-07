@@ -11,7 +11,7 @@
   - Board
     - #occupied?(location) now only accepts a location object.
     - #available?(location) now only accepts a location object.
-    
+    - locations must be both unoccupied AND on_board to be considered available.
 
 ## 0.1.2 (2022-11-05)
 

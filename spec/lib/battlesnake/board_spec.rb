@@ -124,14 +124,36 @@ describe Battlesnake::Board do
   describe '#available?(location)' do
     subject { object.available?(location) }
 
+    let(:on_board?) { true }
+
+    before { allow(object).to receive(:on_board?).with(location).and_return(on_board?) }
+
     describe 'when location is occupied' do
       let(:location) { Battlesnake::Location.new(occupied_locations.first) }
-      it { is_expected.to be_falsey }
+
+      describe 'when location is within board boundaries' do
+        let(:on_board?) { true }
+        it { is_expected.to be_falsey }
+      end
+
+      describe 'when location is NOT within board boundaries' do
+        let(:on_board?) { false }
+        it { is_expected.to be_falsey }
+      end
     end
 
     describe 'when location is NOT occupied' do
       let(:location) { Battlesnake::Location.new(empty_locations.first) }
-      it { is_expected.to be_truthy }
+
+      describe 'when location is within board boundaries' do
+        let(:on_board?) { true }
+        it { is_expected.to be_truthy }
+      end
+
+      describe 'when location is NOT within board boundaries' do
+        let(:on_board?) { false }
+        it { is_expected.to be_falsey }
+      end
     end
   end
 
@@ -148,7 +170,7 @@ describe Battlesnake::Board do
       }
     end
 
-    let(:obstacle) { Battlesnake::Location.new(1, 1) }
+    let(:obstacle) { Battlesnake::Location.new(2, 2) }
 
     def self.it_returns_only(*valid_directions)
       it { is_expected.to be_an(Array) }
