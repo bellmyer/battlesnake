@@ -108,107 +108,30 @@ describe Battlesnake::Board do
   end
 
   describe '#occupied?(location)' do
-    subject { object.occupied?(*location_params) }
+    subject { object.occupied?(location) }
 
     describe 'when location is occupied' do
       let(:location) { Battlesnake::Location.new(occupied_locations.first) }
-
-      describe 'when location param is a Location object' do
-        let(:location_params) { [location] }
-        it { is_expected.to be_truthy }
-      end
-
-      describe 'when location param is a hash' do
-        let(:location_params) { [location.as_json] }
-        it { is_expected.to be_truthy }
-      end
-
-      describe 'when location param is an array of x,y coordinates' do
-        let(:location_params) { [[location.x, location.y]] }
-        it { is_expected.to be_truthy }
-      end
-
-      describe 'when location param is a pair of x,y parameters' do
-        let(:location_params) { [location.x, location.y] }
-        it { is_expected.to be_truthy }
-      end
+      it { is_expected.to be_truthy }
     end
 
     describe 'when location is NOT occupied' do
       let(:location) { Battlesnake::Location.new(empty_locations.first) }
-
-      describe 'when location param is a Location object' do
-        let(:location_params) { [location] }
-        it { is_expected.to be_falsey }
-      end
-
-      describe 'when location param is a hash' do
-        let(:location_params) { [location.as_json] }
-        it { is_expected.to be_falsey }
-      end
-
-      describe 'when location param is an array of x,y coordinates' do
-        let(:location_params) { [[location.x, location.y]] }
-        it { is_expected.to be_falsey }
-      end
-
-      describe 'when location param is a pair of x,y parameters' do
-        let(:location_params) { [location.x, location.y] }
-        it { is_expected.to be_falsey }
-      end
+      it { is_expected.to be_falsey }
     end
   end
 
-
   describe '#available?(location)' do
-    subject { object.available?(*location_params) }
+    subject { object.available?(location) }
 
     describe 'when location is occupied' do
       let(:location) { Battlesnake::Location.new(occupied_locations.first) }
-
-      describe 'when location param is a Location object' do
-        let(:location_params) { [location] }
-        it { is_expected.to be_falsey }
-      end
-
-      describe 'when location param is a hash' do
-        let(:location_params) { [location.as_json] }
-        it { is_expected.to be_falsey }
-      end
-
-      describe 'when location param is an array of x,y coordinates' do
-        let(:location_params) { [[location.x, location.y]] }
-        it { is_expected.to be_falsey }
-      end
-
-      describe 'when location param is a pair of x,y parameters' do
-        let(:location_params) { [location.x, location.y] }
-        it { is_expected.to be_falsey }
-      end
+      it { is_expected.to be_falsey }
     end
 
     describe 'when location is NOT occupied' do
       let(:location) { Battlesnake::Location.new(empty_locations.first) }
-
-      describe 'when location param is a Location object' do
-        let(:location_params) { [location] }
-        it { is_expected.to be_truthy }
-      end
-
-      describe 'when location param is a hash' do
-        let(:location_params) { [location.as_json] }
-        it { is_expected.to be_truthy }
-      end
-
-      describe 'when location param is an array of x,y coordinates' do
-        let(:location_params) { [[location.x, location.y]] }
-        it { is_expected.to be_truthy }
-      end
-
-      describe 'when location param is a pair of x,y parameters' do
-        let(:location_params) { [location.x, location.y] }
-        it { is_expected.to be_truthy }
-      end
+      it { is_expected.to be_truthy }
     end
   end
 

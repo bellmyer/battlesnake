@@ -52,13 +52,10 @@ module Battlesnake
     ##
     # Whether the supplied location is occupied.
     #
-    # @param *coordinates [Location,Hash,String,Array] can be specified as a _Location_ object,
-    #   hash containing x/y keys, JSON string of such a hash, or a pair of x,y coordinates expressed
-    #   as a 2-element array or two separate parameters.
+    # @param [Location] location being checked for occupancy.
     #
     # @return [Boolean] true if location is occupied by snakes, food, hazards, etc.
-    def occupied?(*coordinates)
-      location = coordinates.first.is_a?(Location) ? coordinates.first : Location.new(*coordinates)
+    def occupied?(location)
       occupied_locations.include?(location)
     end
 
@@ -75,13 +72,11 @@ module Battlesnake
     ##
     # Whether the supplied location is available (unoccupied).
     #
-    # @param *coordinates [Location,Hash,String,Array] can be specified as a _Location_ object,
-    #   hash containing x/y keys, JSON string of such a hash, or a pair of x,y coordinates expressed
-    #   as a 2-element array or two separate parameters.
+    # @param [Location] location being tested for availability.
     #
     # @return [Boolean] true if location is available (unoccupied by snakes, food, hazards, etc).
-    def available?(*coordinates)
-      !occupied?(*coordinates)
+    def available?(location)
+      !occupied?(location)
     end
 
     ##

@@ -5,6 +5,13 @@
 ### Added
 
   - Board#on_board?(location) returns true if location is within board boundaries.
+  
+### Changed
+
+  - Board
+    - #occupied?(location) now only accepts a location object.
+    - #available?(location) now only accepts a location object.
+    
 
 ## 0.1.2 (2022-11-05)
 
