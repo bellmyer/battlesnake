@@ -309,7 +309,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#available%3F-instance_method" title="#available? (instance method)">#<strong>available?</strong>(*coordinates)  &#x21d2; Boolean </a>
+      <a href="#available%3F-instance_method" title="#available? (instance method)">#<strong>available?</strong>(location)  &#x21d2; Boolean </a>
     
 
     
@@ -383,7 +383,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#occupied%3F-instance_method" title="#occupied? (instance method)">#<strong>occupied?</strong>(*coordinates)  &#x21d2; Boolean </a>
+      <a href="#occupied%3F-instance_method" title="#occupied? (instance method)">#<strong>occupied?</strong>(location)  &#x21d2; Boolean </a>
     
 
     
@@ -423,6 +423,54 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>List of all occupied locations on the board; snakes, food, hazards, etc.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#on_board%3F-instance_method" title="#on_board? (instance method)">#<strong>on_board?</strong>(location)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Where the supplied location falls within the boundaries of the board.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#paths-instance_method" title="#paths (instance method)">#<strong>paths</strong>(from, to)  &#x21d2; Array&lt;Path&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of valid, consecutive paths from one location to the next.</p>
 </div></span>
   
 </li>
@@ -901,7 +949,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="available?-instance_method">
   
-    #<strong>available?</strong>(*coordinates)  &#x21d2; <tt>Boolean</tt> 
+    #<strong>available?</strong>(location)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -921,16 +969,16 @@
   
     <li>
       
-        <span class='name'>*coordinates</span>
+        <span class='name'>location</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>, <tt>Hash</tt>, <tt>String</tt>, <tt>Array</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>can be specified as a <em>Location</em> object, hash containing x/y keys, JSON string of such a hash, or a pair of x,y coordinates expressed as a 2-element array or two separate parameters.</p>
+<p>being tested for availability.</p>
 </div>
       
     </li>
@@ -962,15 +1010,15 @@
       <pre class="lines">
 
 
-73
-74
-75</pre>
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 78</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_available?'>available?</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coordinates'>coordinates</span><span class='rparen'>)</span>
-  <span class='op'>!</span><span class='id identifier rubyid_occupied?'>occupied?</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coordinates'>coordinates</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_available?'>available?</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_on_board?'>on_board?</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_occupied?'>occupied?</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1041,14 +1089,14 @@
       <pre class="lines">
 
 
-83
-84
-85
-86
-87</pre>
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_available_directions'>available_directions</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Location.html#DIRECTIONS-constant" title="Battlesnake::Location::DIRECTIONS (constant)">DIRECTIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_direction'>direction</span><span class='op'>|</span>
@@ -1063,7 +1111,7 @@
       <div class="method_details ">
   <h3 class="signature " id="occupied?-instance_method">
   
-    #<strong>occupied?</strong>(*coordinates)  &#x21d2; <tt>Boolean</tt> 
+    #<strong>occupied?</strong>(location)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1083,16 +1131,16 @@
   
     <li>
       
-        <span class='name'>*coordinates</span>
+        <span class='name'>location</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>, <tt>Hash</tt>, <tt>String</tt>, <tt>Array</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>can be specified as a <em>Location</em> object, hash containing x/y keys, JSON string of such a hash, or a pair of x,y coordinates expressed as a 2-element array or two separate parameters.</p>
+<p>being checked for occupancy.</p>
 </div>
       
     </li>
@@ -1124,16 +1172,14 @@
       <pre class="lines">
 
 
-60
-61
-62
-63</pre>
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 58</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_occupied?'>occupied?</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coordinates'>coordinates</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_location'>location</span> <span class='op'>=</span> <span class='id identifier rubyid_coordinates'>coordinates</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_coordinates'>coordinates</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Location.html#initialize-instance_method" title="Battlesnake::Location#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_coordinates'>coordinates</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_occupied?'>occupied?</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_occupied_locations'>occupied_locations</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1202,12 +1248,193 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="on_board?-instance_method">
+  
+    #<strong>on_board?</strong>(location)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Where the supplied location falls within the boundaries of the board.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>location</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>being tested.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if location is within the boundaries of the board.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 68</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_on_board?'>on_board?</span><span class='lparen'>(</span><span class='id identifier rubyid_location'>location</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_x'>x</span> <span class='op'>&gt;=</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>&gt;=</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_x'>x</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_width'>width</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_height'>height</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="paths-instance_method">
+  
+    #<strong>paths</strong>(from, to)  &#x21d2; <tt>Array&lt;Path&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>List of valid, consecutive paths from one location to the next. Paths may not:</p>
+
+<pre class="code ruby"><code class="ruby">- wander outside board boundaries.
+- use the same location more than once.
+- contain occupied locations, EXCEPT the start/end locations.
+</code></pre>
+
+<p>The exception for start/end locations allows us to generate paths, for example, from a snake to a food location, without having to calulate the starting/ending permutations ourselves.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>from</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>starting location, may be occupied</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Location.html" title="Battlesnake::Location (class)">Location</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>starting location, may be occupied</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Path&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a list of paths, which themselves are lists of consecutive, valid locations.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+108
+109
+110</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/battlesnake/board.rb', line 108</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_paths'>paths</span><span class='lparen'>(</span><span class='id identifier rubyid_from'>from</span><span class='comma'>,</span> <span class='id identifier rubyid_to'>to</span><span class='rparen'>)</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Sat Nov  5 20:09:02 2022 by
+  Generated on Mon Nov  7 15:30:13 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-2.7.2).
 </div>

@@ -4,7 +4,9 @@
 
 ### Added
 
-  - Board#on_board?(location) returns true if location is within board boundaries.
+  - Board
+    - #on_board?(location) returns true if location is within board boundaries.
+    - #paths(from, to) returns all valid paths from one location to the next.
   
 ### Changed
 

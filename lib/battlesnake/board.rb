@@ -90,5 +90,129 @@ module Battlesnake
         available?(location.move(direction))
       end
     end
+
+    ##
+    # List of valid, consecutive paths from one location to the next. Paths may not:
+    #
+    #  - wander outside board boundaries.
+    #  - use the same location more than once.
+    #  - contain occupied locations, EXCEPT the start/end locations.
+    #
+    # The exception for start/end locations allows us to generate paths, for example, from a snake
+    # to a food location, without having to calulate the starting/ending permutations ourselves.
+    #
+    # @param from [Location] starting location, may be occupied
+    # @param to   [Location] starting location, may be occupied
+    #
+    # @return [Array<Path>] a list of paths, which themselves are lists of consecutive, valid locations.
+    def find_path(from, to, max_distance: nil)
+      @paths = []
+      @ideal_path_size = from.distance(to) + 1
+      @shortest_path_size = max_distance || @ideal_path_size
+      @ideal_path_size_found = false
+
+      recursive_paths(from, to, [from])
+
+      @paths.select{ |path| path.size == @shortest_path_size }.first
+    end
+
+    def recursive_paths(from, to, path)
+      head = path.last
+
+      # give up if path is too long already.
+      return [] if path.size > @shortest_path_size || @ideal_path_size_found
+
+      # if we've made it to "to", we have a successful candidate path.
+      if head.as_json == to.as_json
+        @paths << path
+        @shortest_path_size = [@shortest_path_size, path.size].min
+        @ideal_path_size_found = true if path.size == @ideal_path_size
+
+        return path
+      end
+
+      available_directions(head).sort_by do |direction|
+        # prefer to continue in same direction
+        neck = path[-2]
+
+        if neck && neck.direction(head) == direction
+          0
+        else
+          rand
+        end
+      end.map do |direction|
+        # convert direction string to a location
+        head.move(direction)
+      end.map do |location|
+        # convert location to a full path
+        path + [location]
+      end.select do |candidate|
+        # don't allow paths that overlap themselves
+        candidate.size == candidate.uniq(&:as_json).size
+      end.each do |candidate|
+        # recurse into remaining candidate paths
+        recursive_paths(from, to, candidate)
+      end
+    end
+
+    def shorty(location)
+      "#{location.x}:#{location.y}"
+    end
+
+    def shorties(list)
+      case list.first
+      when Array
+        list.map{ |l| shorties(l) }
+      when Location
+        list.map{|x| shorty(x)}.join(' ')
+      end
+    end
+
+    def print_grid(path, prefix: '  ')
+      max_x = path.map(&:x).max
+      max_y = path.map(&:y).max
+
+      (0..max_y).each do |row|
+        y = max_y - row
+
+        cols = (0..max_x).map do |x|
+          loc = Location.new(x, y)
+
+          if path.include?(loc)
+            after = path.index{ |l| l.as_json == loc.as_json} + 1
+
+            if after >= path.size
+              "\u00d7"
+            elsif loc.as_json == path.first.as_json
+              case loc.direction(path[after])
+              when 'up'
+                "\u21a5"
+              when 'down'
+                "\u21a7"
+              when 'left'
+                "\u21a4"
+              when 'right'
+                "\u21a6"
+              end
+            else
+              case loc.direction(path[after])
+              when 'up'
+                "\u2191"
+              when 'down'
+                "\u2193"
+              when 'left'
+                "\u2190"
+              when 'right'
+                "\u2192"
+              end
+            end
+          else
+            'O'
+          end
+        end.join(' ')
+
+        puts "#{prefix}  #{cols}"
+      end
+    end
   end
 end

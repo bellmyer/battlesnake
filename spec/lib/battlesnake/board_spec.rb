@@ -238,4 +238,100 @@ describe Battlesnake::Board do
       it { is_expected.to be_falsey }
     end
   end
+
+  describe '#find_path(from, to)' do
+    subject { object.find_path(from, to) }
+
+    let(:object) { Fabricate(:board, width: dimensions, height: dimensions, snake_count: 0, food_count: 0, hazard_count: 0) }
+    let(:from) { Battlesnake::Location.new(0, 0) }
+    let(:to)   { Battlesnake::Location.new(dimensions - 1, dimensions - 1) }
+
+    def self.it_returns_shortest_path_for(dimension_size)
+      describe 'when board is 4x4' do
+        let(:dimensions) { dimension_size }
+        it { expect(subject.size).to eq(dimensions * 2 - 1) }
+      end
+    end
+
+    describe 'when board is 2x2' do
+      let(:dimensions) { 2 }
+
+      let(:upleft) { Battlesnake::Location.new(0, 1) }
+      let(:upright) { Battlesnake::Location.new(1, 1) }
+
+      let(:downleft) { Battlesnake::Location.new(0, 0) }
+      let(:downright) { Battlesnake::Location.new(1, 0) }
+
+      let(:shortest_paths) do
+        [
+          [downleft, upleft, upright],
+          [downleft, downright, upright]
+        ]
+      end
+
+      describe 'when locations are in opposite corners' do
+        let(:from) { downleft }
+        let(:to) { upright }
+
+        it { is_expected.to be_an(Array) }
+
+        it 'is one of the pre-determined possible paths' do
+          expect(shortest_paths).to include(subject)
+        end
+      end
+
+      describe 'when locations are adjacent' do
+        let(:from) { downleft }
+        let(:to) { downright }
+
+        it { is_expected.to be_an(Array) }
+
+        it 'returns the direct path' do
+          is_expected.to eq([downleft, downright])
+        end
+      end
+    end
+
+    describe 'when board is 3x3' do
+      let(:dimensions) { 3 }
+
+      let(:loc_00) { Battlesnake::Location.new(0, 0) }
+      let(:loc_01) { Battlesnake::Location.new(0, 1) }
+      let(:loc_02) { Battlesnake::Location.new(0, 2) }
+
+      let(:loc_10) { Battlesnake::Location.new(1, 0) }
+      let(:loc_11) { Battlesnake::Location.new(1, 1) }
+      let(:loc_12) { Battlesnake::Location.new(1, 2) }
+
+      let(:loc_20) { Battlesnake::Location.new(2, 0) }
+      let(:loc_21) { Battlesnake::Location.new(2, 1) }
+      let(:loc_22) { Battlesnake::Location.new(2, 2) }
+
+      let(:shortest_paths) do
+        [
+          [loc_00, loc_01, loc_02, loc_12, loc_22],
+          [loc_00, loc_10, loc_20, loc_21, loc_22],
+          [loc_00, loc_01, loc_11, loc_21, loc_22],
+          [loc_00, loc_10, loc_11, loc_21, loc_22],
+          [loc_00, loc_01, loc_11, loc_21, loc_22],
+          [loc_00, loc_10, loc_11, loc_12, loc_22]
+        ]
+      end
+
+      describe 'when locations are in opposite corners' do
+        it { is_expected.to be_an(Array) }
+
+        it 'includes of of the pre-determined possible paths' do
+          expect(shortest_paths).to include(subject)
+        end
+      end
+    end
+
+    it_returns_shortest_path_for(4)
+    it_returns_shortest_path_for(8)
+    it_returns_shortest_path_for(12)
+    it_returns_shortest_path_for(16)
+    it_returns_shortest_path_for(32)
+    it_returns_shortest_path_for(64)
+  end
 end
