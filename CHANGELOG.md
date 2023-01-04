@@ -2,8 +2,15 @@
 
 ## 0.1.4 (2023-01-03)
 
+### Added
+
   - Board
-    - #occupied_locations no longer includes food
+    - #food?(location) returns true if location is food.
+
+### Changed
+
+  - Board
+    - #occupied_locations no longer includes food.
 
 ## 0.1.3 (2022-11-07)
 

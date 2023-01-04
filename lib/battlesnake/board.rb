@@ -81,6 +81,16 @@ module Battlesnake
     end
 
     ##
+    # Whether the supplied location is food.
+    #
+    # @param [Location] location being tested for availability.
+    #
+    # @return [Boolean] true if location is food.
+    def food?(location)
+      food.include?(location)
+    end
+
+    ##
     # List of directions (up, down, left, right) available for moving from given _Location_.
     #
     # @param [Location] location from which moving is desired.

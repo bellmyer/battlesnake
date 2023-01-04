@@ -120,6 +120,25 @@ describe Battlesnake::Board do
     end
   end
 
+  describe '#food?(location)' do
+    subject { object.food?(location) }
+
+    describe 'when location is occupied' do
+      let(:location) { Battlesnake::Location.new(occupied_locations.first) }
+      it { is_expected.to be_falsey }
+    end
+
+    describe 'when location is empty' do
+      let(:location) { Battlesnake::Location.new(empty_locations.first) }
+      it { is_expected.to be_falsey }
+    end
+
+    describe 'when location is food' do
+      let(:location) { Battlesnake::Location.new(food_locations.first) }
+      it { is_expected.to be_truthy }
+    end
+  end
+
   describe '#available?(location)' do
     subject { object.available?(location) }
 
