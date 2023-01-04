@@ -258,11 +258,12 @@ describe Battlesnake::Board do
   end
 
   describe '#find_path(from, to)' do
-    subject { object.find_path(from, to) }
+    subject { object.find_path(from, to, max_distance: max_distance) }
 
     let(:object) { Fabricate(:board, width: dimensions, height: dimensions, snake_count: 0, food_count: 0, hazard_count: 0) }
     let(:from) { Battlesnake::Location.new(0, 0) }
     let(:to)   { Battlesnake::Location.new(dimensions - 1, dimensions - 1) }
+    let(:max_distance) { nil }
 
     def self.it_returns_shortest_path_for(dimension_size)
       describe 'when board is 4x4' do
@@ -341,6 +342,17 @@ describe Battlesnake::Board do
 
         it 'includes of of the pre-determined possible paths' do
           expect(shortest_paths).to include(subject)
+        end
+
+        describe 'when max_distance is below manhattan distance' do
+          let(:max_distance) { 3 }
+
+          it { is_expected.to be_nil }
+
+          it 'does not attempt to recurse into paths' do
+            expect(object).to receive(:recursive_paths).never
+            subject
+          end
         end
       end
     end

@@ -117,8 +117,11 @@ module Battlesnake
     #
     # @return [Array<Path>] a list of paths, which themselves are lists of consecutive, valid locations.
     def find_path(from, to, max_distance: nil)
+      distance = from.distance(to)
+      return nil if max_distance && max_distance < distance
+
       @paths = []
-      @ideal_path_size = from.distance(to) + 1
+      @ideal_path_size = distance + 1
       @shortest_path_size = max_distance || @ideal_path_size
       @ideal_path_size_found = false
 
