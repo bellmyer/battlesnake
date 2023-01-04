@@ -41,12 +41,13 @@ module Battlesnake
     end
 
     ##
-    # List of all occupied locations on the board; snakes, food, hazards, etc
+    # List of all occupied locations on the board; snakes, hazards, etc.
+    # Does NOT include food, since we don't want to avoid that.
     #
     # @return [Array<Location>] list of occupied locations
     def occupied_locations
       return @occupied_locations if defined?(@occupied_locations)
-      @occupied_locations = snakes.map(&:body).flatten + food + hazards
+      @occupied_locations = snakes.map(&:body).flatten + hazards
     end
 
     ##

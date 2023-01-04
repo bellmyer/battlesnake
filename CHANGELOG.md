@@ -1,5 +1,10 @@
 # Battlesnake
 
+## 0.1.4 (2023-01-03)
+
+  - Board
+    - #occupied_locations no longer includes food
+
 ## 0.1.3 (2022-11-07)
 
 ### Added

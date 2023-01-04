@@ -86,12 +86,12 @@ describe Battlesnake::Board do
       snake_locations.each { |location| is_expected.to include(location) }
     end
 
-    it 'includes all food locations' do
-      food_locations.each { |location| is_expected.to include(location) }
-    end
-
     it 'includes all hazard locations' do
       hazard_locations.each { |location| is_expected.to include(location) }
+    end
+
+    it 'excludes all food locations' do
+      food_locations.each { |location| is_expected.to_not include(location) }
     end
 
     it 'excludes empty locations' do
@@ -100,7 +100,6 @@ describe Battlesnake::Board do
 
     it 'memoizes the result' do
       expect(object).to receive(:snakes).and_return([]).once
-      expect(object).to receive(:food).and_return([]).once
       expect(object).to receive(:hazards).and_return([]).once
 
       2.times { object.occupied_locations }
