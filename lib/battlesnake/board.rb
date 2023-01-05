@@ -103,6 +103,33 @@ module Battlesnake
     end
 
     ##
+    # List of neighboring locations available for moving from given _Location_.
+    #
+    # @param [Location] location from which moving is desired.
+    #
+    # @return [Array<Location>] list of locations
+    def available_neighbors(location)
+      Location::DIRECTIONS.map{ |direction| location.move(direction) }.select{ |l| available?(l) }
+    end
+
+    ##
+    # List reachable locations in each orthogonal direction.
+    #
+    # @return [Hash] hash of reachable locations by direction
+    def flood_fills(location)
+      fills = Location::DIRECTIONS.map{ |direction| [direction, []]}.to_h
+
+      available_directions(location).each do |direction|
+        @flood_fill_checked = []
+        @flood_fill_matches = []
+
+        fills[direction] = flood_fill(location.move(direction)) #.uniq(&:coords)
+      end
+
+      fills
+    end
+
+    ##
     # List of valid, consecutive paths from one location to the next. Paths may not:
     #
     #  - wander outside board boundaries.
@@ -128,6 +155,22 @@ module Battlesnake
       recursive_paths(from, to, [from])
 
       @paths.select{ |path| path.size == @shortest_path_size }.first
+    end
+
+    private
+
+    def flood_fill(location)
+      @flood_fill_checked << location.coords
+
+      unless occupied?(location)
+        @flood_fill_matches << location
+
+        available_neighbors(location).each do |neighbor|
+          flood_fill(neighbor) unless @flood_fill_checked.include?(neighbor.coords)
+        end
+      end
+
+      @flood_fill_matches
     end
 
     def recursive_paths(from, to, path)

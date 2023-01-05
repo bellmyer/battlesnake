@@ -1,6 +1,17 @@
 require 'json'
 
 describe Battlesnake::Board do
+  def loc(structure)
+    case structure
+    when Hash
+      Battlesnake::Location.new(structure['x'], structure['y'])
+    when Array
+      Battlesnake::Location.new(*structure)
+    when Location
+      Battlesnake::Location.new(structure.x, structure.y)
+    end
+  end
+
   let(:klass) { Battlesnake::Board }
   let(:object) { klass.new(attribs) }
 
@@ -18,7 +29,7 @@ describe Battlesnake::Board do
   let(:all_locations) do
     object.width.times.map do |x|
       object.height.times.map do |y|
-        Battlesnake::Location.new(x, y)
+        loc([x, y])
       end
     end.flatten.map(&:as_json)
   end
@@ -110,12 +121,12 @@ describe Battlesnake::Board do
     subject { object.occupied?(location) }
 
     describe 'when location is occupied' do
-      let(:location) { Battlesnake::Location.new(occupied_locations.first) }
+      let(:location) { loc(occupied_locations.first) }
       it { is_expected.to be_truthy }
     end
 
     describe 'when location is NOT occupied' do
-      let(:location) { Battlesnake::Location.new(empty_locations.first) }
+      let(:location) { loc(empty_locations.first) }
       it { is_expected.to be_falsey }
     end
   end
@@ -124,17 +135,17 @@ describe Battlesnake::Board do
     subject { object.food?(location) }
 
     describe 'when location is occupied' do
-      let(:location) { Battlesnake::Location.new(occupied_locations.first) }
+      let(:location) { loc(occupied_locations.first) }
       it { is_expected.to be_falsey }
     end
 
     describe 'when location is empty' do
-      let(:location) { Battlesnake::Location.new(empty_locations.first) }
+      let(:location) { loc(empty_locations.first) }
       it { is_expected.to be_falsey }
     end
 
     describe 'when location is food' do
-      let(:location) { Battlesnake::Location.new(food_locations.first) }
+      let(:location) { loc(food_locations.first) }
       it { is_expected.to be_truthy }
     end
   end
@@ -147,7 +158,7 @@ describe Battlesnake::Board do
     before { allow(object).to receive(:on_board?).with(location).and_return(on_board?) }
 
     describe 'when location is occupied' do
-      let(:location) { Battlesnake::Location.new(occupied_locations.first) }
+      let(:location) { loc(occupied_locations.first) }
 
       describe 'when location is within board boundaries' do
         let(:on_board?) { true }
@@ -161,7 +172,7 @@ describe Battlesnake::Board do
     end
 
     describe 'when location is NOT occupied' do
-      let(:location) { Battlesnake::Location.new(empty_locations.first) }
+      let(:location) { loc(empty_locations.first) }
 
       describe 'when location is within board boundaries' do
         let(:on_board?) { true }
@@ -188,7 +199,7 @@ describe Battlesnake::Board do
       }
     end
 
-    let(:obstacle) { Battlesnake::Location.new(2, 2) }
+    let(:obstacle) { loc([2, 2]) }
 
     def self.it_returns_only(*valid_directions)
       it { is_expected.to be_an(Array) }
@@ -228,7 +239,7 @@ describe Battlesnake::Board do
   describe '#on_board?(location)' do
     subject { object.on_board?(location) }
 
-    let(:location) { Battlesnake::Location.new(x, y) }
+    let(:location) { loc([x, y]) }
     let(:x) { 1 }
     let(:y) { 1 }
 
@@ -257,12 +268,74 @@ describe Battlesnake::Board do
     end
   end
 
+  describe '#flood_fill(from)' do
+    subject do
+      object.flood_fills(object.snakes.first.head).transform_values(&:size)
+    end
+
+    let(:object) do
+      Scenario.new(scenario).to_board
+    end
+
+    describe 'when snake is cornering itself' do
+      let(:scenario) do
+        <<~DATA
+          ##0#
+          >>^#
+          ####
+          ####
+        DATA
+      end
+
+      it { is_expected.to eq({'up' => 0, 'down' => 0, 'left' => 2, 'right' => 10}) }
+    end
+
+    describe 'when there is food' do
+      let(:scenario) do
+        <<~DATA
+          #F0#
+          >>^#
+          ##F#
+          ####
+        DATA
+      end
+
+      it { is_expected.to eq({'up' => 0, 'down' => 0, 'left' => 2, 'right' => 10}) }
+    end
+
+    describe 'when there are hazards' do
+      let(:scenario) do
+        <<~DATA
+          H#0#
+          >>^#
+          ##H#
+          ####
+        DATA
+      end
+
+      it { is_expected.to eq({'up' => 0, 'down' => 0, 'left' => 1, 'right' => 9}) }
+    end
+
+    describe 'when no direction is inhibited' do
+      let(:scenario) do
+        <<~DATA
+          ####
+          #>0#
+          ####
+          ####
+        DATA
+      end
+
+      it { is_expected.to eq({'up' => 14, 'down' => 14, 'left' => 0, 'right' => 14}) }
+    end
+  end
+
   describe '#find_path(from, to)' do
     subject { object.find_path(from, to, max_distance: max_distance) }
 
     let(:object) { Fabricate(:board, width: dimensions, height: dimensions, snake_count: 0, food_count: 0, hazard_count: 0) }
-    let(:from) { Battlesnake::Location.new(0, 0) }
-    let(:to)   { Battlesnake::Location.new(dimensions - 1, dimensions - 1) }
+    let(:from) { loc([0, 0]) }
+    let(:to)   { loc([dimensions - 1, dimensions - 1]) }
     let(:max_distance) { nil }
 
     def self.it_returns_shortest_path_for(dimension_size)
@@ -275,11 +348,11 @@ describe Battlesnake::Board do
     describe 'when board is 2x2' do
       let(:dimensions) { 2 }
 
-      let(:upleft) { Battlesnake::Location.new(0, 1) }
-      let(:upright) { Battlesnake::Location.new(1, 1) }
+      let(:upleft) { loc([0, 1]) }
+      let(:upright) { loc([1, 1]) }
 
-      let(:downleft) { Battlesnake::Location.new(0, 0) }
-      let(:downright) { Battlesnake::Location.new(1, 0) }
+      let(:downleft) { loc([0, 0]) }
+      let(:downright) { loc([1, 0]) }
 
       let(:shortest_paths) do
         [
@@ -314,17 +387,17 @@ describe Battlesnake::Board do
     describe 'when board is 3x3' do
       let(:dimensions) { 3 }
 
-      let(:loc_00) { Battlesnake::Location.new(0, 0) }
-      let(:loc_01) { Battlesnake::Location.new(0, 1) }
-      let(:loc_02) { Battlesnake::Location.new(0, 2) }
+      let(:loc_00) { loc([0, 0]) }
+      let(:loc_01) { loc([0, 1]) }
+      let(:loc_02) { loc([0, 2]) }
 
-      let(:loc_10) { Battlesnake::Location.new(1, 0) }
-      let(:loc_11) { Battlesnake::Location.new(1, 1) }
-      let(:loc_12) { Battlesnake::Location.new(1, 2) }
+      let(:loc_10) { loc([1, 0]) }
+      let(:loc_11) { loc([1, 1]) }
+      let(:loc_12) { loc([1, 2]) }
 
-      let(:loc_20) { Battlesnake::Location.new(2, 0) }
-      let(:loc_21) { Battlesnake::Location.new(2, 1) }
-      let(:loc_22) { Battlesnake::Location.new(2, 2) }
+      let(:loc_20) { loc([2, 0]) }
+      let(:loc_21) { loc([2, 1]) }
+      let(:loc_22) { loc([2, 2]) }
 
       let(:shortest_paths) do
         [

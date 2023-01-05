@@ -2,6 +2,12 @@
 
 ## 0.1.5 (2023-01-04)
 
+### Added
+
+  - Board
+    - #available_neighbors(location) returns neighboring locations available for moving.
+    - #flood_fills(location) returns hash of reachable locations by direction
+
 ### Changed
 
   - Board

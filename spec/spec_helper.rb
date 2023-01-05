@@ -1,6 +1,7 @@
 require 'fabrication'
 
 require_relative '../lib/battlesnake'
+require_relative './support/scenario'
 
 # load all shared examples before _spec files
 Dir["#{File.dirname(__FILE__)}/shared_examples/**/*_examples.rb"].each { |f| require f }
