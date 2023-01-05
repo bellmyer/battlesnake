@@ -123,7 +123,7 @@ module Battlesnake
         @flood_fill_checked = []
         @flood_fill_matches = []
 
-        fills[direction] = flood_fill(location.move(direction)) #.uniq(&:coords)
+        fills[direction] = flood_fill(location.move(direction))
       end
 
       fills
