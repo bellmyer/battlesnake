@@ -1,5 +1,11 @@
 # Battlesnake
 
+## 0.1.6 (2023-01-07)
+
+### Added
+
+  - Class for Turn, which encapsulates a single game turn request.
+
 ## 0.1.5 (2023-01-04)
 
 ### Added

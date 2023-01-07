@@ -1,5 +1,6 @@
 require "battlesnake/version"
 require 'battlesnake/base'
+require 'battlesnake/turn'
 require 'battlesnake/board'
 require 'battlesnake/game'
 require 'battlesnake/location'
