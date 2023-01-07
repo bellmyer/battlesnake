@@ -29,5 +29,14 @@ module Battlesnake
       @board = Board.new(data['board'])
       @you = Snake.new(data['you'])
     end
+
+    ##
+    # Returns all snakes, minus your snake.
+    #
+    # @return [Array<Snake>]
+    def others
+      return @others if defined?(@others)
+      @others = board.snakes.reject{ |snake| snake.id == you.id }
+    end
   end
 end

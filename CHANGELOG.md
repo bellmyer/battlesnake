@@ -5,6 +5,7 @@
 ### Added
 
   - Class for Turn, which encapsulates a single game turn request.
+    - #others returns all snakes except your own.
 
 ## 0.1.5 (2023-01-04)
 
@@ -12,7 +13,7 @@
 
   - Board
     - #available_neighbors(location) returns neighboring locations available for moving.
-    - #flood_fills(location) returns hash of reachable locations by direction
+    - #flood_fills(location) returns hash of reachable locations by direction.
 
 ### Changed
 

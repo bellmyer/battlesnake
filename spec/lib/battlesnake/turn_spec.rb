@@ -56,5 +56,25 @@ describe Battlesnake::Turn do
     end
   end
 
+  describe '#others' do
+    subject { object.others }
 
+    it { is_expected.to be_an(Array) }
+
+    it 'is one less than all board snakes' do
+      expect(subject.size).to eq(object.board.snakes.size - 1)
+    end
+
+    it 'omits your snake' do
+      other_ids = subject.map(&:id)
+      your_id = object.you.id
+
+      expect(other_ids).to_not include(your_id)
+    end
+
+    it 'memoizes the result' do
+      expect(object.board).to receive(:snakes).once.and_return([])
+      2.times { object.others }
+    end
+  end
 end
