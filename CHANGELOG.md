@@ -1,5 +1,12 @@
 # Battlesnake
 
+## 0.1.7 (2023-02-07)
+
+### Changed
+
+  - Board
+    #flood_fills(location, options = {}) accepts an option "max" which will stop counting available spaces when reached, for performance.
+
 ## 0.1.6 (2023-01-07)
 
 ### Added
