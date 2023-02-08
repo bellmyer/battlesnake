@@ -115,15 +115,19 @@ module Battlesnake
     ##
     # List reachable locations in each orthogonal direction.
     #
+    # @param [Location] location from which moving is desired.
+    # @options [Hash]
+    #   max: max number of spaces to count before stopping search
+    #
     # @return [Hash] hash of reachable locations by direction
-    def flood_fills(location)
+    def flood_fills(location, options = {})
       fills = Location::DIRECTIONS.map{ |direction| [direction, []]}.to_h
 
       available_directions(location).each do |direction|
         @flood_fill_checked = []
         @flood_fill_matches = []
 
-        fills[direction] = flood_fill(location.move(direction))
+        fills[direction] = flood_fill(location.move(direction), options)
       end
 
       fills
@@ -159,14 +163,15 @@ module Battlesnake
 
     private
 
-    def flood_fill(location)
+    def flood_fill(location, options = {})
       @flood_fill_checked << location.coords
 
       unless occupied?(location)
         @flood_fill_matches << location
 
         available_neighbors(location).each do |neighbor|
-          flood_fill(neighbor) unless @flood_fill_checked.include?(neighbor.coords)
+          return @flood_fill_matches if options[:max] && @flood_fill_matches.size >= options[:max]
+          flood_fill(neighbor, options) unless @flood_fill_checked.include?(neighbor.coords)
         end
       end
 

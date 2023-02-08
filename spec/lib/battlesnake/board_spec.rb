@@ -268,14 +268,13 @@ describe Battlesnake::Board do
     end
   end
 
-  describe '#flood_fill(from)' do
+  describe '#flood_fills(from, max: nil)' do
     subject do
-      object.flood_fills(object.snakes.first.head).transform_values(&:size)
+      object.flood_fills(object.snakes.first.head, options).transform_values(&:size)
     end
 
-    let(:object) do
-      Scenario.new(scenario).to_board
-    end
+    let(:object) { Scenario.new(scenario).to_board }
+    let(:options) { {} }
 
     describe 'when snake is cornering itself' do
       let(:scenario) do
@@ -288,6 +287,21 @@ describe Battlesnake::Board do
       end
 
       it { is_expected.to eq({'up' => 0, 'down' => 0, 'left' => 2, 'right' => 10}) }
+    end
+
+    describe 'when max is specified' do
+      let(:options) { {max: max} }
+      let(:max) { 5 }
+      let(:scenario) do
+        <<~DATA
+          #F0#
+          >>^#
+          ##F#
+          ####
+        DATA
+      end
+
+      it { is_expected.to eq({'up' => 0, 'down' => 0, 'left' => 2, 'right' => max}) }
     end
 
     describe 'when there is food' do
